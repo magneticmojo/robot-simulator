@@ -5,8 +5,26 @@ public class Main {
 
 }
 
-class Robot {
+// TODO how to connect 0,0 as SOUTH WEST?
 
+class Simulation {
+    TableTop tableTop;
+
+    Simulation() {
+        tableTop = new TableTop();
+    }
+
+}
+
+class Robot {
+    Position position;
+    Direction facing;
+
+}
+
+class Position {
+    int x;
+    int y;
 }
 
 class Grid {
@@ -22,4 +40,15 @@ class TableTop extends Grid {
     public TableTop() {
         super(5, 5);
     }
+}
+
+
+enum Direction {
+    NORTH, SOUTH, EAST, WEST
+}
+
+// TODO Adapter pattern
+class InputHandler {
+
+
 }

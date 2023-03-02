@@ -52,3 +52,9 @@ class InputHandler {
 
 
 }
+
+//TODO --> Mottagning av textfil från källa||samma folder
+//File file ....
+//if file.exists() -->
+//close resources...
+//Scanner is not synchronized --> Can not share multiple threads

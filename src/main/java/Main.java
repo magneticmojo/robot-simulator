@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -6,6 +10,7 @@ public class Main {
 }
 
 // TODO how to connect 0,0 as SOUTH WEST?
+// TODO Strategy pattern
 
 class Simulation {
     TableTop tableTop;
@@ -50,6 +55,33 @@ enum Direction {
 // TODO Adapter pattern
 class InputHandler {
 
+    String filePath;
+
+    public void x(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public void readInput() {
+        try {
+            File file = new File(filePath);
+            Scanner sc = new Scanner(file);
+            if (file.exists()) {
+
+                // TODO Parse input with scanner
+
+            }
+
+            // ???
+            sc.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
+
+
+    }
+
 
 }
 
@@ -58,3 +90,5 @@ class InputHandler {
 //if file.exists() -->
 //close resources...
 //Scanner is not synchronized --> Can not share multiple threads
+
+

@@ -132,13 +132,13 @@ class Grid {
         this.yBoundary = yBoundary;
     }
 
-    public int getxBoundary() {
+/*    public int getxBoundary() {
         return xBoundary;
     }
 
     public int getyBoundary() {
         return yBoundary;
-    }
+    }*/
 
     public boolean positionOutOfBounds(int x, int y) {
         return x < 0 || x > xBoundary || y < 0 || y > yBoundary;
@@ -238,6 +238,7 @@ enum Direction {
     NORTH, EAST, SOUTH, WEST;
 
     public Direction left() {
+        // ordinal value of the enum constant on which the left() was called
         return values()[(ordinal() + 3) % 4];
     }
 

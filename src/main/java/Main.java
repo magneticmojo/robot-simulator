@@ -4,21 +4,21 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        Application app = new Application();
-        app.run();
+        Main main = new Main();
+        main.run();
     }
-}
 
-class Application {
     public void run() throws FileNotFoundException {
         FileInputHandler fileInputHandler = new FileInputHandler();
         File file = fileInputHandler.getFile("src/main/resources/3.in");
+
         Simulation simulation = new Simulation();
         simulation.readCommand(file);
     }
 }
 
 class FileInputHandler {
+
     public File getFile(String filePath) throws IllegalArgumentException, FileNotFoundException {
         if (filePath == null || filePath.isEmpty()) {
             throw new IllegalArgumentException("Invalid file path");

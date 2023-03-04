@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -54,32 +55,22 @@ enum Direction {
 
 // TODO Adapter pattern
 class InputHandler {
-
-    String filePath;
-
-    public void x(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public void readInput() {
-        try {
-            File file = new File(filePath);
-            Scanner sc = new Scanner(file);
-            if (file.exists()) {
-
-                // TODO Parse input with scanner
-
-            }
-
-            // ???
-            sc.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-
+    // 'throws' clause added to indicate method trowing an exception --> Enable caller to handle exception appropriately
+    public void readInput(String filePath) throws IllegalArgumentException, FileNotFoundException {
+        if (filePath == null || filePath.isEmpty()) {
+            throw new IllegalArgumentException("Invalid file path");
         }
 
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new FileNotFoundException("File not found " + filePath);
+        }
 
+        //Option to check if user has permition to read file with file.canRead()
+        try (Scanner sc = new Scanner(filePath)) {
+
+
+        }
     }
 
 

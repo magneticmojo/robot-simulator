@@ -11,7 +11,6 @@ public class Main {
     public void run() throws FileNotFoundException {
         FileInputHandler fileInputHandler = new FileInputHandler();
         File file = fileInputHandler.getFile("src/main/resources/3.in");
-
         Simulation simulation = new Simulation();
         simulation.readCommand(file);
     }
@@ -132,14 +131,6 @@ class Grid {
         this.yBoundary = yBoundary;
     }
 
-/*    public int getxBoundary() {
-        return xBoundary;
-    }
-
-    public int getyBoundary() {
-        return yBoundary;
-    }*/
-
     public boolean positionOutOfBounds(int x, int y) {
         return x < 0 || x > xBoundary || y < 0 || y > yBoundary;
     }
@@ -159,9 +150,16 @@ class TableTop extends Grid {
     }
 }
 
+interface Movable {
+    void move();
+    void rotateLeft();
+    void rotateRight();
+}
+
 class Robot {
+    // TODO skapa Robot när den får valid cmd eller innan?
     Position position = new Position();
-    Direction facing;
+    Direction direction;
     boolean isOnTable = false;
 
     public Position getPosition() {
@@ -188,11 +186,11 @@ class Robot {
     }
 
     public Direction getDirection() {
-        return facing;
+        return direction;
     }
 
-    public void setDirection(Direction facing) {
-        this.facing = facing;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     private void setOnTable() {
@@ -202,7 +200,7 @@ class Robot {
     @Override
     public String toString() {
         if (isOnTable) {
-            return position + "," + facing.toString();
+            return position + "," + direction.toString();
         }
         return "Robot not on table";
     }
@@ -211,6 +209,11 @@ class Robot {
 class Position {
     int x;
     int y;
+
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public int getX() {
         return x;
@@ -234,16 +237,37 @@ class Position {
     }
 }
 
+// Type-safe --> Other than enum constant or null ==> compile error
 enum Direction {
-    NORTH, EAST, SOUTH, WEST;
+    NORTH(0, 1), EAST(1, 0), SOUTH(0, -1), WEST(-1, 0);
+
+    private final int x;
+    private final int y;
+    private final int leftRotation;
+    private final int rightRotation;
+
+    Direction(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.leftRotation = (ordinal() + 3) % 4;
+        this.rightRotation = (ordinal() + 1) % 4;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     public Direction left() {
         // ordinal value of the enum constant on which the left() was called
-        return values()[(ordinal() + 3) % 4];
+        return values()[leftRotation];
     }
 
     public Direction right() {
-        return values()[(ordinal() + 1) % 4];
+        return values()[rightRotation];
     }
 }
 

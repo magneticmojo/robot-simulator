@@ -13,15 +13,13 @@ public class Simulation {
 
     public void readCommand(File file) throws FileNotFoundException {
 
+        // TODO catch IOEXCeption
         try (Scanner sc = new Scanner(file)) {
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] command = line.split(" ");
 
-                // TODO --> Möjligen en samling med Commandon för att undvika kontroller
-
-                // Other than PLACE cmd + No robot on table
                 if (robot.isOnTable() && !command[0].equals("PLACE")) {
                     switch (command[0]) {
                         case "MOVE" -> {
@@ -34,19 +32,18 @@ public class Simulation {
                             robot.right();
                         }
                         case "REPORT" -> {
-                            String report = robot.report();
-                            System.out.println(report);
-                            System.out.println(robot);
+                            System.out.println(robot.report());
                         }
                         default ->
                                 throw new IllegalArgumentException("Unknown command: " + command[0]);
                     }
                 } else if (command[0].equals("PLACE")) {
-                    String[] coordinatesAndDirection = command[1].split(",");
-                    int x = Integer.parseInt(coordinatesAndDirection[0]);
-                    int y = Integer.parseInt(coordinatesAndDirection[1]);
-                    String dir = coordinatesAndDirection[2];
-                    robot.place(x, y, dir);
+                    String[] args = command[1].split(",");
+                    if (args.length != 3) {
+                        throw new IllegalArgumentException();
+                    }
+
+                    robot.place(args);
 
                 }
             }

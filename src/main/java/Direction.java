@@ -23,10 +23,7 @@ enum Direction {
         return y;
     }
 
-    public Direction left() {
-        // ordinal value of the enum constant on which the left() was called
-        return values()[leftRotation];
-    }
+    public Direction left() { return values()[leftRotation]; }
 
     public Direction right() {
         return values()[rightRotation];

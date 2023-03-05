@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         // TODO Exception handling
+        // om null
         String filePath = args[0];
         Main main = new Main();
         main.run(filePath);

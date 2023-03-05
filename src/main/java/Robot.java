@@ -12,7 +12,7 @@ public class Robot {
         this.yGridBoundary = yGridBoundary;
     }
 
-    public boolean isInBoundsFor(Position newPosition) {
+    private boolean isInBoundsFor(Position newPosition) {
         int x = newPosition.getX();
         int y = newPosition.getY();
         return x >= 0 && x <= xGridBoundary && y >= 0 && y <= yGridBoundary;
@@ -23,10 +23,12 @@ public class Robot {
     }
 
     // Place
-    public void place(Position newPosition, Direction newDirection) {
+    public void place(int x, int y, String dir) {
+        Position newPosition = new Position(x, y);
+
         if (isInBoundsFor(newPosition)) {
             position = newPosition;
-            direction = newDirection;
+            direction = Direction.valueOf(dir);
             isOnTable = true;
         }
     }
@@ -54,7 +56,6 @@ public class Robot {
         return "Output: " + position + "," + direction;
     }
 
-    // TODO formattera snyggare?
     @Override
     public String toString() {
         String pos = (position != null) ? position.toString() : "N/A";

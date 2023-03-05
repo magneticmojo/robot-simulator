@@ -26,42 +26,27 @@ public class Simulation {
                     switch (command[0]) {
                         case "MOVE" -> {
                             robot.move();
-                            System.out.println("MOVE --> " + robot);
                         }
                         case "LEFT" -> {
-                            System.out.println(command[0]);
                             robot.left();
-                            System.out.println(robot);
                         }
                         case "RIGHT" -> {
-                            System.out.println(command[0]);
                             robot.right();
-                            System.out.println(robot);
                         }
                         case "REPORT" -> {
-                            System.out.println(command[0]);
                             String report = robot.report();
                             System.out.println(report);
+                            System.out.println(robot);
                         }
                         default ->
                                 throw new IllegalArgumentException("Unknown command: " + command[0]);
                     }
                 } else if (command[0].equals("PLACE")) {
-                    // TODO saknas det en klass emellan Simulation och Robot?
-                    System.out.print(command[0] + " ");
-                    System.out.println(command[1]);
-
                     String[] coordinatesAndDirection = command[1].split(",");
                     int x = Integer.parseInt(coordinatesAndDirection[0]);
                     int y = Integer.parseInt(coordinatesAndDirection[1]);
-
-                    Position newPosition = new Position(x, y);
-                    Direction newDirection = Direction.valueOf(coordinatesAndDirection[2]);
-                    // TODO
-                    // Visat inte tydligt att kommandot kan ignoreras
-                    // isOnTable sätts alltid till true
-                    // TODO --> Skriv en kommentar!
-                    robot.place(newPosition, newDirection);
+                    String dir = coordinatesAndDirection[2];
+                    robot.place(x, y, dir);
 
                 }
             }

@@ -1,18 +1,17 @@
-// Type-safe --> Other than enum constant or null ==> compile error
 enum Direction {
     NORTH(0, 1), EAST(1, 0), SOUTH(0, -1), WEST(-1, 0);
 
-    // TODO final??? --> Sök på nätet --> Är de privata från början?
     private final int x;
     private final int y;
     private final int leftRotation;
     private final int rightRotation;
+    private final int DIRECTION_VALUES_SIZE = 4;
 
     Direction(int x, int y) {
         this.x = x;
         this.y = y;
-        this.leftRotation = (ordinal() + 3) % 4;
-        this.rightRotation = (ordinal() + 1) % 4;
+        this.leftRotation = (ordinal() + 3) % DIRECTION_VALUES_SIZE;
+        this.rightRotation = (ordinal() + 1) % DIRECTION_VALUES_SIZE;
         // TODO ta bort magic numbers --> values().size
     }
 

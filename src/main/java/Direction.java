@@ -2,7 +2,7 @@
 enum Direction {
     NORTH(0, 1), EAST(1, 0), SOUTH(0, -1), WEST(-1, 0);
 
-    // TODO final???
+    // TODO final??? --> Sök på nätet --> Är de privata från början?
     private final int x;
     private final int y;
     private final int leftRotation;
@@ -13,6 +13,7 @@ enum Direction {
         this.y = y;
         this.leftRotation = (ordinal() + 3) % 4;
         this.rightRotation = (ordinal() + 1) % 4;
+        // TODO ta bort magic numbers --> values().size
     }
 
     public int getX() {

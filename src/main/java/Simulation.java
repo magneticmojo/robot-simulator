@@ -2,12 +2,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-class Simulation {
-    Robot robot;
+public class Simulation {
+    private Robot robot;
+    private final int X_GRID_BOUNDARY = 5;
+    private final int Y_GRID_BOUNDARY = 5;
 
-    // TODO new Grid instansierad här???
-    Simulation() {
-        robot = new Robot(null, null, new Grid(5, 5));
+    public Simulation() {
+        robot = new Robot(null, null, X_GRID_BOUNDARY, Y_GRID_BOUNDARY);
     }
 
     public void readCommand(File file) throws FileNotFoundException {
@@ -18,8 +19,10 @@ class Simulation {
                 String line = sc.nextLine();
                 String[] command = line.split(" ");
 
+                // TODO --> Möjligen en samling med Commandon för att undvika kontroller
+
                 // Other than PLACE cmd + No robot on table
-                if (robot.isOnTable()) {
+                if (robot.isOnTable() && !command[0].equals("PLACE")) {
                     switch (command[0]) {
                         case "MOVE" -> {
                             robot.move();
@@ -37,13 +40,11 @@ class Simulation {
                         }
                         case "REPORT" -> {
                             System.out.println(command[0]);
-                            robot.report();
-                            System.out.println("Output: " + robot);
+                            String report = robot.report();
+                            System.out.println(report);
                         }
                         default ->
-                                //TODO MalformedFileException not exist
                                 throw new IllegalArgumentException("Unknown command: " + command[0]);
-
                     }
                 } else if (command[0].equals("PLACE")) {
                     // TODO saknas det en klass emellan Simulation och Robot?
@@ -59,6 +60,7 @@ class Simulation {
                     // TODO
                     // Visat inte tydligt att kommandot kan ignoreras
                     // isOnTable sätts alltid till true
+                    // TODO --> Skriv en kommentar!
                     robot.place(newPosition, newDirection);
 
                 }

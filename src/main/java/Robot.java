@@ -2,34 +2,20 @@ public class Robot {
     private Position position;
     private Direction direction;
     private boolean isOnTable;
-    private Grid tableTop; // TODO
+    private int xGridBoundary;
+    private int yGridBoundary;
 
-    public Robot(Position position, Direction direction, Grid tableTop) {
+    public Robot(Position position, Direction direction, int xGridBoundary, int yGridBoundary) {
         this.position = position;
         this.direction = direction;
-        this.tableTop = tableTop;
-    }
-
-    // TODO Remove if not used?
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position newPosition) {
-        this.position = newPosition;
+        this.xGridBoundary = xGridBoundary;
+        this.yGridBoundary = yGridBoundary;
     }
 
     public boolean isInBoundsFor(Position newPosition) {
-        return tableTop.positionInBounds(newPosition);
-    }
-
-    // TODO Remove if not used?
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
+        int x = newPosition.getX();
+        int y = newPosition.getY();
+        return x >= 0 && x <= xGridBoundary && y >= 0 && y <= yGridBoundary;
     }
 
     public boolean isOnTable() {
@@ -39,8 +25,8 @@ public class Robot {
     // Place
     public void place(Position newPosition, Direction newDirection) {
         if (isInBoundsFor(newPosition)) {
-            setPosition(newPosition);
-            setDirection(newDirection);
+            position = newPosition;
+            direction = newDirection;
             isOnTable = true;
         }
     }
@@ -49,36 +35,34 @@ public class Robot {
     public void move() {
         Position newPosition = new Position(
                 position.getX() + direction.getX(), position.getY() + direction.getY());
-        if (isInBoundsFor(position)) {
+        if (isInBoundsFor(newPosition)) {
             position = newPosition;
         }
-
     }
 
     // Left
     public void left() {
-        setDirection(direction.left());
+        direction = direction.left();
     }
 
+    // Right
     public void right() {
-        setDirection(direction.right());
+        direction = direction.right();
     }
 
-    public void report() {
-        // TODO vad fan va det Max sa?
-        System.out.println("Output: " + position + "," + direction);
+    public String report() {
+        return "Output: " + position + "," + direction;
     }
 
     // TODO formattera snyggare?
     @Override
     public String toString() {
-        String position = (this.position != null) ? this.position.toString() : "N/A";
-        String direction = (this.direction != null) ? this.direction.toString() : "N/A";
-        String grid = (this.tableTop != null) ? this.tableTop.toString() : "N/A";
+        String pos = (position != null) ? position.toString() : "N/A";
+        String dir = (direction != null) ? direction.toString() : "N/A";
         return "Robot [on table: " + isOnTable +
-                ", position: " + position +
-                ", direction: " + direction +
-                ", grid dimensions: " + grid + "]";
+                ", position: " + pos +
+                ", direction: " + dir +
+                ", grid dimensions: " + xGridBoundary + "x" + yGridBoundary + " units]";
 
     }
 

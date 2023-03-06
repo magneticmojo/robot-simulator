@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 
+// TODO finns förbättringar att göra!!!
+
 public class FileInputHandler {
     public File getFile(String filePath) throws IllegalArgumentException, FileNotFoundException {
         // TODO VAD MER BEHÖVER JAG KONTROLLERA?

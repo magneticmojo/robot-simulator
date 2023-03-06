@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 // TODO göra manuellt sådant som inte sköts automatiskt i applicationen? Tex isOnTable = true;
 // TODO använda setOnTable och report()????
+// TODO --> SKAPA GETTERS!!!
+// TODO --> Testa privata metoder? Gör publikt sen tillbaka
 class RobotTest {
 
     private Robot robotNotOnTable;
@@ -189,6 +191,8 @@ class RobotTest {
     void testRotate360DegreesRight() {
         robotOnTable.right();
         robotOnTable.right();
+        robotOnTable.right();
+        robotOnTable.right();
         // TODO här hade man ju velat ha getDirection() !!!
         assertEquals("Output: 0,0,NORTH", robotOnTable.report());
     }
@@ -201,6 +205,11 @@ class RobotTest {
     @Test
     void testReportForRobotOnTable() {
         assertDoesNotThrow(() -> {robotOnTable.report();});
+    }
+
+    @Test
+    void testReportString() {
+        // TODO testa String-värdet
     }
 
     @Test

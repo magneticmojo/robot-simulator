@@ -1,4 +1,13 @@
+// RobotState
+// 2 implemtts --> Of table och ontable
+// Robot ska ha en instans av den
+// Instansiering av Robot --> OffTable
+//
+
+// TODO Testa för max och minvärden
+
 public class Robot {
+
     private Position position;
     private Direction direction;
     private boolean isOnTable;
@@ -61,7 +70,7 @@ public class Robot {
     @Override
     public String toString() {
         //String pos = (position != null) ? "x=" + position.x() + "," + position.y() : "N/A";
-        String pos = (position != null) ? String.format("x=%d, y=%d", position.x(), position.y()) : "N/A";
+        String pos = (position != null) ? position.toString() : "N/A";
         String dir = (direction != null) ? direction.toString() : "N/A";
         return String.format("Robot [on table: %b; position: %s; direction: %s; grid dimensions: %dx%d units]",
                 isOnTable, pos, dir, xGridBoundary, yGridBoundary);

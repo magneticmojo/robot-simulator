@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 
 public class FileInputHandler {
     public File getFile(String filePath) throws IllegalArgumentException, FileNotFoundException {
+        // TODO VAD MER BEHÖVER JAG KONTROLLERA?
         if (filePath == null || filePath.isEmpty()) {
             throw new IllegalArgumentException("Invalid file path");
         }

@@ -12,17 +12,17 @@ public class Robot {
         this.yGridBoundary = yGridBoundary;
     }
 
-    private boolean isInBoundsFor(Position newPosition) {
-        int x = newPosition.x();
-        int y = newPosition.y();
-        return x >= 0 && x <= xGridBoundary && y >= 0 && y <= yGridBoundary;
-    }
-
     public boolean isOnTable() {
         return isOnTable;
     }
 
-    // Place
+    // TODO problem när isOnTable inte sätts till true genom konstruktorn
+    // TODO kan inte sätta roboten på griden utan att anropa place()
+    // For testing purposes
+    public void setOnTable() {
+        isOnTable = true;
+    }
+
     public void place(String[] args) {
         Position newPosition = new Position(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         if (isInBoundsFor(newPosition)) {
@@ -32,21 +32,24 @@ public class Robot {
         }
     }
 
-    // Move
     public void move() {
         Position newPosition = new Position(
-                position.x() + direction.getX(), position.x() + direction.getY());
+                position.x() + direction.getX(), position.y() + direction.getY());
         if (isInBoundsFor(newPosition)) {
             position = newPosition;
         }
     }
 
-    // Left
+    private boolean isInBoundsFor(Position newPosition) {
+        int x = newPosition.x();
+        int y = newPosition.y();
+        return x >= 0 && x <= xGridBoundary && y >= 0 && y <= yGridBoundary;
+    }
+
     public void left() {
         direction = direction.left();
     }
 
-    // Right
     public void right() {
         direction = direction.right();
     }
@@ -57,12 +60,11 @@ public class Robot {
 
     @Override
     public String toString() {
-        String pos = (position != null) ? position.x() + "," + position.y() : "N/A";
+        //String pos = (position != null) ? "x=" + position.x() + "," + position.y() : "N/A";
+        String pos = (position != null) ? String.format("x=%d, y=%d", position.x(), position.y()) : "N/A";
         String dir = (direction != null) ? direction.toString() : "N/A";
-        return "Robot [on table: " + isOnTable +
-                ", position: " + pos +
-                ", direction: " + dir +
-                ", grid dimensions: " + xGridBoundary + "x" + yGridBoundary + " units]";
+        return String.format("Robot [on table: %b; position: %s; direction: %s; grid dimensions: %dx%d units]",
+                isOnTable, pos, dir, xGridBoundary, yGridBoundary);
 
     }
 

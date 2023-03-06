@@ -1,18 +1,19 @@
 enum Direction {
     NORTH(0, 1), EAST(1, 0), SOUTH(0, -1), WEST(-1, 0);
 
+    private static final int DIRECTION_VALUES_SIZE = 4;
+    private static final int LEFT_ROTATION_INCREMENT = 3;
+    private static final int RIGHT_ROTATION_INCREMENT = 1;
     private final int x;
     private final int y;
     private final int leftRotation;
     private final int rightRotation;
-    private final int DIRECTION_VALUES_SIZE = 4;
 
     Direction(int x, int y) {
         this.x = x;
         this.y = y;
-        this.leftRotation = (ordinal() + 3) % DIRECTION_VALUES_SIZE;
-        this.rightRotation = (ordinal() + 1) % DIRECTION_VALUES_SIZE;
-        // TODO ta bort magic numbers --> values().size
+        this.leftRotation = (ordinal() + LEFT_ROTATION_INCREMENT) % DIRECTION_VALUES_SIZE;
+        this.rightRotation = (ordinal() + RIGHT_ROTATION_INCREMENT) % DIRECTION_VALUES_SIZE;
     }
 
     public int getX() {

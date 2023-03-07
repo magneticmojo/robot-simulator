@@ -2,214 +2,200 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.*;
-// TODO göra manuellt sådant som inte sköts automatiskt i applicationen? Tex isOnTable = true;
-// TODO använda setOnTable och report()????
-// TODO --> SKAPA GETTERS!!!
-// TODO --> Testa privata metoder? Gör publikt sen tillbaka
+
 class RobotTest {
 
     private Robot robotNotOnTable;
-    private Robot robotOnTable;
+    private Robot robot;
     private String[] inBoundsPlacement = {"5", "5", "NORTH"};
     private String[] outOfBoundsPlacement = {"10", "10", "NORTH"};
     private String[] newValidPosition = {"3", "3", "SOUTH"};
-    private Position originPosition = new Position(0,0);
-    private Direction initialDirection = Direction.NORTH;
+    private String[] originNorth = {"0", "0", "NORTH"};
     private int xGridBoundary = 5;
     private int yGridBoundary = 5;
 
     @BeforeEach
     void setUp() {
         robotNotOnTable = new Robot(null, null, xGridBoundary, yGridBoundary);
-        robotOnTable = new Robot(originPosition, initialDirection, xGridBoundary,yGridBoundary);
-        // TODO kan bara sätta isOnTable genom ett kommando
+        robot = new Robot(null, null, xGridBoundary,yGridBoundary);
+        robot.place(originNorth);
 
     }
 
     @AfterEach
     void tearDown() {
-        robotOnTable = null;
+        robot = null;
         robotNotOnTable = null;
     }
 
     @Test
-    void isOnTable() {
-    }
-
-    @Test
     void testPlaceInBoundsForRobotNotOnTable() {
-        assertFalse(robotNotOnTable.isOnTable());
         robotNotOnTable.place(inBoundsPlacement);
-        assertEquals("Output: 5,5,NORTH", robotNotOnTable.report());
-        assertTrue(robotNotOnTable.isOnTable());
+        assertEquals("Robot [on table: true; position: 5,5; direction: NORTH; grid dimensions: 5x5 units]", robotNotOnTable.toString());
     }
 
     @Test
     void testRobotNotOnTableForPlaceOutOfBoundsForRobotNotOnTable() {
-        assertFalse(robotNotOnTable.isOnTable());
         robotNotOnTable.place(outOfBoundsPlacement);
-        // TODO java.lang.NullPointerException: Cannot invoke "Position.x()" because "this.position" is null
-        // TODO --> Ska man kunna anropa report? Fel att initiera med null?
-        //assertEquals("", robotNotOnTable.report());
         assertEquals("Robot [on table: false; position: N/A; direction: N/A; grid dimensions: 5x5 units]", robotNotOnTable.toString());
-        assertFalse(robotNotOnTable.isOnTable());
     }
 
     @Test
     void testPlaceInBoundsForRobotOnTable() {
-        // TODO ska man kunna sätta isOntable() ??
-        robotOnTable.setOnTable();
-        assertTrue(robotOnTable.isOnTable());
-        robotOnTable.place(inBoundsPlacement);
-        assertEquals("Output: 5,5,NORTH", robotOnTable.report());
-        assertTrue(robotOnTable.isOnTable());
+        robot.place(inBoundsPlacement);
+        assertEquals("Robot [on table: true; position: 5,5; direction: NORTH; grid dimensions: 5x5 units]", robot.toString());
     }
 
     @Test
     void testIfRobotRemainsAtPositionWithOutOfBoundsPlacementPassedToPlace() {
-        String beforePlaceCommand = robotOnTable.report();
-        robotOnTable.place(outOfBoundsPlacement);
-        String afterPlaceCommand = robotOnTable.report();
+        String beforePlaceCommand = robot.toString();
+        robot.place(outOfBoundsPlacement);
+        String afterPlaceCommand = robot.toString();
         assertEquals(beforePlaceCommand, afterPlaceCommand);
     }
 
     @Test
     void testPlaceAtNewValidPosition() {
-        String currentPositionAndDirection = robotOnTable.report();
-        robotOnTable.place(newValidPosition);
-        String newPositionAndDirection = robotOnTable.report();
+        String currentPositionAndDirection = robot.toString();
+        robot.place(newValidPosition);
+        String newPositionAndDirection = robot.toString();
         assertNotEquals(currentPositionAndDirection, newPositionAndDirection);
     }
 
     @Test
     void testMoveOneUnitInBounds() {
-        // Initial Position == 0,0 and Initial Direction == NORTH
-        robotOnTable.move();
-        assertEquals("Output: 0,1,NORTH", robotOnTable.report());
+        String initialPosition = robot.toString();
+        robot.move();
+        assertNotEquals(initialPosition, robot.toString());
     }
 
     @Test
     void testMoveWithoutCrossingUpperXBoundary() {
-        Robot robotMovingEast = new Robot(originPosition, Direction.EAST, xGridBoundary, yGridBoundary);
-        // TODO bad practice to call another method???
-        robotMovingEast.setOnTable();
+        robot.place(new String[] {"0","0","EAST"});
+        Robot robotMovingEast = robot;
         for (int i = 0; i <= xGridBoundary + 1; i++) {
             robotMovingEast.move();
         }
-        assertEquals("Output: 5,0,EAST", robotMovingEast.report());
+        assertEquals("Robot [on table: true; position: 5,0; direction: EAST; grid dimensions: 5x5 units]", robotMovingEast.toString());
     }
 
     @Test
     void testMoveWithoutCrossingLowerXBoundary() {
-        Robot robotMovingWest = new Robot(originPosition, Direction.WEST, xGridBoundary, yGridBoundary);
-        // TODO bad practice to call another method???
-        robotMovingWest.setOnTable();
+        robot.place(new String[] {"0","0","WEST"});
+        Robot robotMovingWest = robot;
         robotMovingWest.move();
-        assertEquals("Output: 0,0,WEST", robotMovingWest.report());
+        assertEquals("Robot [on table: true; position: 0,0; direction: WEST; grid dimensions: 5x5 units]", robotMovingWest.toString());
     }
 
     @Test
     void testMoveWithoutCrossingUpperYBoundary() {
-        Robot robotMovingNorth = new Robot(originPosition, Direction.NORTH, xGridBoundary, yGridBoundary);
-        // TODO bad practice to call another method???
-        robotMovingNorth.setOnTable();
+        robot.place(new String[] {"0","0","NORTH"});
+        Robot robotMovingNorth = robot;
         for (int i = 0; i <= yGridBoundary + 1; i++) {
             robotMovingNorth.move();
         }
-        assertEquals("Output: 0,5,NORTH", robotMovingNorth.report());
+        assertEquals("Robot [on table: true; position: 0,5; direction: NORTH; grid dimensions: 5x5 units]", robotMovingNorth.toString());
     }
 
     @Test
     void testMoveWithoutCrossingLowerYBoundary() {
-        Robot robotMovingSouth = new Robot(originPosition, Direction.SOUTH, xGridBoundary, yGridBoundary);
-        // TODO bad practice to call another method???
-        robotMovingSouth.setOnTable();
+        robot.place(new String[] {"0","0","SOUTH"});
+        Robot robotMovingSouth = robot;
         robotMovingSouth.move();
-        assertEquals("Output: 0,0,SOUTH", robotMovingSouth.report());
+        assertEquals("Robot [on table: true; position: 0,0; direction: SOUTH; grid dimensions: 5x5 units]", robotMovingSouth.toString());
     }
 
     @Test
     void testRotate90DegreesLeft() {
-        robotOnTable.left();
-        // TODO här hade man ju velat ha getDirection() !!!
-        assertEquals("Output: 0,0,WEST", robotOnTable.report());
+        robot.left();
+        assertEquals("Robot [on table: true; position: 0,0; direction: WEST; grid dimensions: 5x5 units]", robot.toString());
     }
 
     @Test
     void testRotate180DegreesLeft() {
-        robotOnTable.left();
-        robotOnTable.left();
-        // TODO här hade man ju velat ha getDirection() !!!
-        assertEquals("Output: 0,0,SOUTH", robotOnTable.report());
+        robot.left();
+        robot.left();
+        assertEquals("Robot [on table: true; position: 0,0; direction: SOUTH; grid dimensions: 5x5 units]", robot.toString());
     }
 
     @Test
     void testRotate270DegreesLeft() {
-        robotOnTable.left();
-        robotOnTable.left();
-        robotOnTable.left();
-        // TODO här hade man ju velat ha getDirection() !!!
-        assertEquals("Output: 0,0,EAST", robotOnTable.report());
+        robot.left();
+        robot.left();
+        robot.left();
+        assertEquals("Robot [on table: true; position: 0,0; direction: EAST; grid dimensions: 5x5 units]", robot.toString());
     }
 
     @Test
     void testRotate360DegreesLeft() {
-        robotOnTable.left();
-        robotOnTable.left();
-        robotOnTable.left();
-        robotOnTable.left();
-        // TODO här hade man ju velat ha getDirection() !!!
-        assertEquals("Output: 0,0,NORTH", robotOnTable.report());
+        robot.left();
+        robot.left();
+        robot.left();
+        robot.left();
+        assertEquals("Robot [on table: true; position: 0,0; direction: NORTH; grid dimensions: 5x5 units]", robot.toString());
     }
 
     @Test
     void testRotate90DegreesRight() {
-        robotOnTable.right();
-        // TODO här hade man ju velat ha getDirection() !!!
-        assertEquals("Output: 0,0,EAST", robotOnTable.report());
+        robot.right();
+        assertEquals("Robot [on table: true; position: 0,0; direction: EAST; grid dimensions: 5x5 units]", robot.toString());
     }
 
     @Test
     void testRotate180DegreesRight() {
-        robotOnTable.right();
-        robotOnTable.right();
-        // TODO här hade man ju velat ha getDirection() !!!
-        assertEquals("Output: 0,0,SOUTH", robotOnTable.report());
+        robot.right();
+        robot.right();
+        assertEquals("Robot [on table: true; position: 0,0; direction: SOUTH; grid dimensions: 5x5 units]", robot.toString());
     }
 
     @Test
     void testRotate270DegreesRight() {
-        robotOnTable.right();
-        robotOnTable.right();
-        robotOnTable.right();
-        // TODO här hade man ju velat ha getDirection() !!!
-        assertEquals("Output: 0,0,WEST", robotOnTable.report());
+        robot.right();
+        robot.right();
+        robot.right();
+        assertEquals("Robot [on table: true; position: 0,0; direction: WEST; grid dimensions: 5x5 units]", robot.toString());
     }
 
     @Test
     void testRotate360DegreesRight() {
-        robotOnTable.right();
-        robotOnTable.right();
-        robotOnTable.right();
-        robotOnTable.right();
-        // TODO här hade man ju velat ha getDirection() !!!
-        assertEquals("Output: 0,0,NORTH", robotOnTable.report());
-    }
-
-    @Test
-    void testReportForRobotNotOnTable() {
-        assertThrows(NullPointerException.class, () -> robotNotOnTable.report());
-    }
-
-    @Test
-    void testReportForRobotOnTable() {
-        assertDoesNotThrow(() -> {robotOnTable.report();});
+        robot.right();
+        robot.right();
+        robot.right();
+        robot.right();
+        assertEquals("Robot [on table: true; position: 0,0; direction: NORTH; grid dimensions: 5x5 units]", robot.toString());
     }
 
     @Test
     void testReportString() {
-        // TODO testa String-värdet
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        robot.place(originNorth);
+        robot.report();
+        assertEquals("Output: 0,0,NORTH", outContent.toString().trim());
+        robot.move();
+        System.setOut(System.out);
+    }
+
+    @Test
+    void testReportStringAfterCommandsExecuted() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        robot.place(originNorth);
+        robot.move();
+        robot.move();
+        robot.right();
+        robot.move();
+        robot.left();
+        robot.left();
+        robot.report();
+        assertEquals("Output: 1,2,WEST", outContent.toString().trim());
+        robot.move();
+        System.setOut(System.out);
     }
 
     @Test
@@ -219,7 +205,21 @@ class RobotTest {
 
     @Test
     void testToStringOnRobotPlacedOnTable() {
-        assertEquals("Robot [on table: false; position: x=0, y=0; direction: NORTH; grid dimensions: 5x5 units]", robotOnTable.toString());
+        assertEquals("Robot [on table: true; position: 0,0; direction: NORTH; grid dimensions: 5x5 units]", robot.toString());
 
     }
+
+/*    *//*
+    * Access needs to be set to public for isInBoundFor(Position position) for tests to work;
+    * *//*
+    @Test
+    void testIsInBoundFor() {
+        assertFalse(robot.isInBoundsFor(new Position(10,10)));
+        assertFalse(robot.isInBoundsFor(new Position(-1,-1)));
+        assertTrue(robot.isInBoundsFor(new Position(3,3)));
+        assertTrue(robot.isInBoundsFor(new Position(0,0)));
+        assertTrue(robot.isInBoundsFor(new Position(0,5)));
+        assertTrue(robot.isInBoundsFor(new Position(5,0)));
+        assertTrue(robot.isInBoundsFor(new Position(5,5)));
+    }*/
 }

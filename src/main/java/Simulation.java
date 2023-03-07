@@ -4,26 +4,27 @@ import java.util.Scanner;
 
 public class Simulation {
     private Robot robot;
-    private static final int X_GRID_BOUNDARY = 5;
-    private static final int Y_GRID_BOUNDARY = 5;
+    private static final int TABLETOP_X_GRID_BOUNDARY = 5;
+    private static final int TABLETOP_Y_GRID_BOUNDARY = 5;
 
     public Simulation() {
-        robot = new Robot(null, null, X_GRID_BOUNDARY, Y_GRID_BOUNDARY);
+        robot = new Robot(null, null, TABLETOP_X_GRID_BOUNDARY, TABLETOP_Y_GRID_BOUNDARY);
     }
 
-    public void readCommand(File file) {
+    public void readCommand(File file) throws IOException {
 
-        // TODO catch IOEXCeption
         try (Scanner sc = new Scanner(file)) {
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] command = line.split(" ");
+                int lineNumber = 0;
 
-                //TODO END OF FILE ????
+                for (String s : command) {
+                    System.out.println("CMD:" + s + "*");
+                }
 
-
-                if (robot.isOnTable() && !command[0].equals("PLACE")) {
+                if (!command[0].equals("PLACE")) {
                     switch (command[0]) {
                         case "MOVE" -> {
                             robot.move();
@@ -35,14 +36,12 @@ public class Simulation {
                             robot.right();
                         }
                         case "REPORT" -> {
-                            System.out.println(robot.report());
+                            robot.report();
                         }
                         default ->
-                                throw new IllegalArgumentException("Unknown command: " + command[0]);
-                                // TODO get line number + file name / path
+                                throw new IllegalArgumentException(String.format("Unknown command: \"%s\" in file %s at %s", command[0], file.getName(), file.getPath()));
                     }
-                } else if (command[0].equals("PLACE")) {
-
+                } else {
 
                     String[] args = command[1].split(",");
 /*                    System.out.println(command[1]);

@@ -87,10 +87,13 @@ class DirectionTest {
         assertEquals(Direction.NORTH, north.right().right().right().right());
     }
 
-    // TODO ej klara tester nedan
     @Test
-    void testValues() {
+    void testLengthOfDirectionsArray() {
         assertEquals(4, directions.length);
+    }
+
+    @Test
+    void testEnumConstantsIndicesInValuesArray() {
         assertEquals(Direction.NORTH, directions[0]);
         assertEquals(Direction.EAST, directions[1]);
         assertEquals(Direction.SOUTH, directions[2]);
@@ -98,12 +101,10 @@ class DirectionTest {
     }
 
     @Test
-    void testValueOf() {
+    void testIdentifiersForEnumConstantsWithValueOf() {
         assertEquals(Direction.NORTH, Direction.valueOf("NORTH"));
         assertEquals(Direction.EAST, Direction.valueOf("EAST"));
         assertEquals(Direction.SOUTH, Direction.valueOf("SOUTH"));
         assertEquals(Direction.WEST, Direction.valueOf("WEST"));
     }
-
-    //TODO Behöver fler testfall!!
 }

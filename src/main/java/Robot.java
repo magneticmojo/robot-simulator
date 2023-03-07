@@ -1,11 +1,3 @@
-// RobotState
-// 2 implemtts --> Of table och ontable
-// Robot ska ha en instans av den
-// Instansiering av Robot --> OffTable
-//
-
-// TODO Testa för max och minvärden
-
 public class Robot {
 
     private Position position;
@@ -21,17 +13,6 @@ public class Robot {
         this.yGridBoundary = yGridBoundary;
     }
 
-    public boolean isOnTable() {
-        return isOnTable;
-    }
-
-    // TODO problem när isOnTable inte sätts till true genom konstruktorn
-    // TODO kan inte sätta roboten på griden utan att anropa place()
-    // For testing purposes
-    public void setOnTable() {
-        isOnTable = true;
-    }
-
     public void place(String[] args) {
         Position newPosition = new Position(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         if (isInBoundsFor(newPosition)) {
@@ -42,10 +23,12 @@ public class Robot {
     }
 
     public void move() {
-        Position newPosition = new Position(
-                position.x() + direction.getX(), position.y() + direction.getY());
-        if (isInBoundsFor(newPosition)) {
-            position = newPosition;
+        if (isOnTable) {
+            Position newPosition = new Position(
+                    position.x() + direction.getX(), position.y() + direction.getY());
+            if (isInBoundsFor(newPosition)) {
+                position = newPosition;
+            }
         }
     }
 
@@ -56,20 +39,25 @@ public class Robot {
     }
 
     public void left() {
-        direction = direction.left();
+        if (isOnTable) {
+            direction = direction.left();
+        }
     }
 
     public void right() {
-        direction = direction.right();
+        if (isOnTable) {
+            direction = direction.right();
+        }
     }
 
-    public String report() {
-        return "Output: " + position.x() + "," + position.y() + "," + direction;
+    public void report() {
+        if (isOnTable) {
+            System.out.printf("Output: %d,%d,%s%n", position.x(), position.y(), direction);
+        }
     }
 
     @Override
     public String toString() {
-        //String pos = (position != null) ? "x=" + position.x() + "," + position.y() : "N/A";
         String pos = (position != null) ? position.toString() : "N/A";
         String dir = (direction != null) ? direction.toString() : "N/A";
         return String.format("Robot [on table: %b; position: %s; direction: %s; grid dimensions: %dx%d units]",

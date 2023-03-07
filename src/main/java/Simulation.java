@@ -18,8 +18,7 @@ public class Simulation {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 String[] command = line.split(" ");
-                // !command[0].equals("PLACE")
-                // command.length == 1
+
                 if (command.length == 1) {
                     switch (command[0]) {
                         case "MOVE" -> {
@@ -34,21 +33,21 @@ public class Simulation {
                         case "REPORT" -> {
                             robot.report();
                         }
-                        default ->
-                                throw new IllegalArgumentException(String.format(
-                                        "Invalid command: \"%s\" in file %s at %s", command[0], file.getName(), file.getPath()));
+                        default -> throw new IllegalArgumentException(String.format(
+                                "Invalid command: \"%s\" in file %s at %s", command[0], file.getName(), file.getPath()));
                     }
-                } else if (command.length > 1){
+                } else if (command.length > 1) {
 
                     if (!command[1].matches("^\\d+,\\d+,(NORTH|EAST|SOUTH|WEST)$")) {
                         throw new IllegalArgumentException(String.format(
                                 "Illegal command args for PLACE command: \"%s\" in file %s at %s", command[1], file.getName(), file.getPath()));
                     }
                     String[] args = command[1].split(",");
-                    /* Will not place robot if args for position is out of bounds for X_GRID_BOUNDARY or Y_GRID_BOUNDARY*/
+
                     robot.place(args);
                 }
             }
+
         } catch (IOException e) {
             System.err.println("An I/O error occurred: " + e.getMessage());
         }

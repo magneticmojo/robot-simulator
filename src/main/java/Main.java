@@ -21,8 +21,6 @@ public class Main {
 
         } catch (IllegalArgumentException | IOException e) {
             e.printStackTrace();
-            // TODO skicka med meddelande?
-            // TODO throws och try och catch ok?
         }
     }
 }

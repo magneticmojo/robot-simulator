@@ -1,6 +1,9 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Björn Forsberg
+ */
 class PositionTest {
 
     Position position = new Position(0,0);

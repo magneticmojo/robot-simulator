@@ -9,6 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Björn Forsberg
+ */
 class MainTest {
 
     @BeforeEach

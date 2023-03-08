@@ -3,6 +3,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Björn Forsberg
+ */
 class FileInputHandlerTest {
 
     FileInputHandler fileInputHandler = new FileInputHandler();

@@ -1,3 +1,9 @@
+/**
+ * The Direction enum represents the four cardinal directions.
+ * Each direction has an x and y coordinate, as well as methods for rotating left and right.
+ *
+ * @author Björn Forsberg
+ */
 enum Direction {
 
     NORTH(0, 1), EAST(1, 0), SOUTH(0, -1), WEST(-1, 0);

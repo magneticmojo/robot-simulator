@@ -1,3 +1,12 @@
+/**
+ * The Robot class represents a robot on a 2D tabletop grid that can be placed, moved, and rotated
+ * based on commands. The robot's position is tracked as an (x, y) coordinate pair, and its
+ * direction is tracked as one of four cardinal directions (north, east, south or west). The grid is
+ * defined by two boundaries, an x boundary and a y boundary, and the robot cannot move or be placed
+ * outside these bounds. The robot can report its current position and direction.
+ *
+ * @author Björn Forsberg
+ */
 public class Robot {
 
     private Position position;
@@ -13,6 +22,11 @@ public class Robot {
         this.yGridBoundary = yGridBoundary;
     }
 
+    /**
+     * Places the robot on the tabletop at the given position and direction, if the position is within the grid boundaries.
+     *
+     * @param args An array of String arguments containing the x-coordinate, y-coordinate, and direction values.
+     */
     public void place(String[] args) {
         Position newPosition = new Position(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         if (isInBoundsFor(newPosition)) {
@@ -22,6 +36,10 @@ public class Robot {
         }
     }
 
+    /**
+     * Moves the robot one unit in its current direction, if the robot
+     * is currently on the tabletop and the new position is within the grid boundaries.
+     */
     public void move() {
         if (isOnTable) {
             Position newPosition = new Position(

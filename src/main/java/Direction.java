@@ -25,7 +25,9 @@ enum Direction {
         return y;
     }
 
-    public Direction left() { return values()[leftRotation]; }
+    public Direction left() {
+        return values()[leftRotation];
+    }
 
     public Direction right() {
         return values()[rightRotation];

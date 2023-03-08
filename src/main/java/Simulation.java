@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Simulation {
+
     private Robot robot;
     private static final int TABLETOP_X_GRID_BOUNDARY = 5;
     private static final int TABLETOP_Y_GRID_BOUNDARY = 5;

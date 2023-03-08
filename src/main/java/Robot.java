@@ -64,5 +64,4 @@ public class Robot {
                 isOnTable, pos, dir, xGridBoundary, yGridBoundary);
 
     }
-
 }

@@ -11,6 +11,7 @@ public class Main {
      * @param args Program arguments used to input a file path.
      */
     public static void main(String[] args) {
+
         if (args.length == 0) {
             throw new IllegalArgumentException("No argument provided");
         }
